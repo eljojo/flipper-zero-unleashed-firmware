@@ -206,15 +206,13 @@ void subghz_cli_command_tx(Cli* cli, FuriString* args, void* context) {
         device_ind);
 
     FuriString* flipper_format_string = furi_string_alloc_printf(
-        "Protocol: Princeton\n"
-        "Bit: 24\n"
+        "Protocol: CAME\n"
+        "Bit: 12\n"
         "Key: 00 00 00 00 00 %02X %02X %02X\n"
-        "TE: %lu\n"
         "Repeat: %lu\n",
         (uint8_t)((key >> 16) & 0xFFU),
         (uint8_t)((key >> 8) & 0xFFU),
         (uint8_t)(key & 0xFFU),
-        te,
         repeat);
     FlipperFormat* flipper_format = flipper_format_string_alloc();
     Stream* stream = flipper_format_get_raw_stream(flipper_format);
@@ -224,7 +222,7 @@ void subghz_cli_command_tx(Cli* cli, FuriString* args, void* context) {
     SubGhzEnvironment* environment = subghz_environment_alloc();
     subghz_environment_set_protocol_registry(environment, (void*)&subghz_protocol_registry);
 
-    SubGhzTransmitter* transmitter = subghz_transmitter_alloc_init(environment, "Princeton");
+    SubGhzTransmitter* transmitter = subghz_transmitter_alloc_init(environment, "CAME");
     subghz_transmitter_deserialize(transmitter, flipper_format);
 
     subghz_devices_begin(device);
